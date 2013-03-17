@@ -7,11 +7,11 @@ import static com.github.rickardoberg.dcifun.Account.deposit;
 import static com.github.rickardoberg.dcifun.Account.withdraw;
 
 /**
- * The MoneyTransfer class holds the immutable state, in this case
+ * The MoneyTransfer context holds the immutable state, in this case
  * the Accounts (which are also immutable).
  *
- * Doing a money transfer involves creating functions that produce
- * a new MoneyTransfer with new Account state.
+ * Doing a money transfer involves creating and invoking functions that produce
+ * a new MoneyTransfer context with new Account state.
  */
 public class MoneyTransfer
 {
@@ -51,9 +51,9 @@ public class MoneyTransfer
     {
         static BiFunction<Account, Function<Transfer, Account>, Function<Transfer, MoneyTransfer>> transfer()
         {
-            return (account, moneySink) -> transfer ->
+            return (account, transferTo) -> transfer ->
                     new MoneyTransfer(withdraw().apply(account).apply(transfer.getAmount()),
-                                     moneySink.apply(transfer));
+                                     transferTo.apply(transfer));
         }
     }
 
